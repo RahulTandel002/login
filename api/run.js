@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
         // const chromiumBinary = await import('@sparticuz/chromium')
         // const chromiumData = chromiumBinary.default;
         browser = await chromium.launch({
-            headless: false,
+            headless: true,
             // args: chromiumData.args,
             // executablePath: await chromiumData.executablePath(),
         });
@@ -40,12 +40,17 @@ module.exports = async (req, res) => {
         await page.goto('https://veenaworld.peoplestrong.com/oneweb/#/home');
 
         await page.waitForTimeout(10000);
+
+        console.log('taking screenshot')
+
+        await page.screenshot({path: 'screenshot.png'})
       
         await page.mouse.click(1000, 188);
   
         await page.waitForTimeout(5000);
         console.log('Playwright execution completed successfully');
 
+        await page.screenshot({path: 'result.png'})
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({
